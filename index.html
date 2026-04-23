@@ -1,120 +1,299 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Project Title</title>
+<title>Ovelha Negra 360°</title>
 <meta charset="utf-8">
 <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
 <style> @-ms-viewport { width: device-width; } </style>
-<link rel="stylesheet" href="vendor/reset.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/vendor/reset.min.css">
+<link rel="stylesheet" href="/tour.css">
+<style>
+  /* Oculta menus, barra de título e fullscreen */
+  #sceneList,
+  #sceneListToggle,
+  #titleBar,
+  #fullscreenToggle {
+    display: none !important;
+  }
+
+  /* Garante todos os controles de view visíveis independente da config do data.js */
+  #viewUp,
+  #viewDown,
+  #viewLeft,
+  #viewRight,
+  #viewIn,
+  #viewOut {
+    display: block !important;
+  }
+
+  /* Garante autorotação visível */
+  #autorotateToggle {
+    display: block !important;
+  }
+
+  /* Pulsing rings nos ícones de navegação */
+  .link-hotspot {
+    position: relative;
+    overflow: visible !important;
+  }
+
+  .link-hotspot-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .link-hotspot-pulse::before,
+  .link-hotspot-pulse::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    animation: hotspot-pulse 2.4s ease-out infinite;
+  }
+
+  .link-hotspot-pulse::after {
+    animation-delay: 1.2s;
+  }
+
+  @keyframes hotspot-pulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  /* Torna o ícone do link levemente brilhante para contraste */
+  .link-hotspot-icon {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
+  }
+
+  /* Tooltip permanece acima de tudo */
+  .link-hotspot-tooltip {
+    z-index: 10;
+  }
+
+  /* ── CLEAN PREMIUM ─────────────────────────────────────── */
+
+  /* Botões de controle de view (direcionais + zoom) */
+  .viewControlButton {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .viewControlButton:hover {
+    background: rgba(0, 0, 0, 0.78) !important;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .viewControlButton .icon {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  /* Botão de autorotação */
+  #autorotateToggle {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.2s ease;
+  }
+
+  #autorotateToggle:hover {
+    background: rgba(0, 0, 0, 0.78) !important;
+  }
+
+  #autorotateToggle .icon {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  /* ── INFO HOTSPOT — sempre redondo + pulso ─────────────── */
+
+  /* Pulso do info hotspot (igual ao link hotspot) */
+  .info-hotspot {
+    position: relative;
+    overflow: visible !important;
+  }
+
+  .info-hotspot-pulse {
+    position: absolute;
+    top: 20px;   /* centro do botão 40×40 */
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .mobile .info-hotspot-pulse {
+    top: 25px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .info-hotspot-pulse::before,
+  .info-hotspot-pulse::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    animation: hotspot-pulse 2.4s ease-out infinite;
+  }
+
+  .info-hotspot-pulse::after {
+    animation-delay: 1.2s;
+  }
+
+  /* Cabeçalho — sempre circular, nunca expande */
+  .info-hotspot .info-hotspot-header,
+  .desktop.no-touch .info-hotspot .info-hotspot-header:hover,
+  .desktop .info-hotspot.visible .info-hotspot-header,
+  .desktop.no-touch .info-hotspot.visible .info-hotspot-header:hover {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.2s ease, border-color 0.2s ease !important;
+    cursor: pointer;
+  }
+
+  .desktop.no-touch .info-hotspot .info-hotspot-header:hover {
+    background: rgba(0, 0, 0, 0.78) !important;
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .mobile .info-hotspot .info-hotspot-header,
+  .mobile.no-touch .info-hotspot .info-hotspot-header:hover,
+  .mobile .info-hotspot.visible .info-hotspot-header {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  /* Oculta título e botão fechar da cabeçalho (não expande mais) */
+  .info-hotspot .info-hotspot-title-wrapper,
+  .info-hotspot .info-hotspot-close-wrapper {
+    display: none !important;
+  }
+
+  /* Ícone branco */
+  .info-hotspot .info-hotspot-icon {
+    filter: brightness(0) invert(1);
+    opacity: 0.92;
+  }
+
+  /* Painel de texto abre abaixo do ícone circular */
+  .info-hotspot .info-hotspot-text {
+    top: 44px;
+    background: rgba(0, 0, 0, 0.72) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    line-height: 1.65;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  /* Info hotspot modal (mobile) */
+  .info-hotspot-modal .info-hotspot-header {
+    background: rgba(0, 0, 0, 0.72) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .info-hotspot-modal .info-hotspot-text {
+    background: rgba(0, 0, 0, 0.72) !important;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .info-hotspot-modal .info-hotspot-close-wrapper {
+    background: rgba(30, 30, 30, 0.85) !important;
+    display: flex !important;
+  }
+
+  .info-hotspot-modal .info-hotspot-close-icon {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+  }
+
+  .info-hotspot-modal {
+    background-color: rgba(0, 0, 0, 0.55) !important;
+  }
+</style>
 </head>
-<body class="multiple-scenes ">
+<body class="multiple-scenes">
+
+<audio id="audio-intro" preload="auto">
+  <source src="/audio-intro/intro.mp3" type="audio/mpeg">
+</audio>
+<audio id="audio-tour" preload="auto" loop>
+  <source src="/audio-tour/tour.mp3" type="audio/mpeg">
+</audio>
 
 <div id="pano"></div>
 
 <div id="sceneList">
   <ul class="scenes">
-    
-      <a href="javascript:void(0)" class="scene" data-id="0-faxada-principal">
-        <li class="text">faxada-principal</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="1-ida-faxada-lado">
-        <li class="text">ida-faxada-lado</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="2-ida-lateralexterna-faxada">
-        <li class="text">ida-lateralexterna-faxada</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="3-ida-interno-ponto2">
-        <li class="text">ida-interno-ponto2</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="4-ida-balcao">
-        <li class="text">ida-balcao</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="5-ida-saidainterna">
-        <li class="text">ida-saidainterna</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="6-ida-meio-comodo-balcao">
-        <li class="text">ida-meio-comodo-balcao</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="7-volta-ladoexterno-saida">
-        <li class="text">volta-ladoexterno-saida</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="8-ida-ladoexterno-meio">
-        <li class="text">ida-ladoexterno-meio</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="9-img_20260417_184919_00_077">
-        <li class="text">IMG_20260417_184919_00_077</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="10-img_20260417_185925_00_089">
-        <li class="text">IMG_20260417_185925_00_089</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="11-ida-externo-ponto1">
-        <li class="text">ida-externo-ponto1</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="12-ida-ladoexterno-final">
-        <li class="text">ida-ladoexterno-final</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="13-ida-externo-ponto2">
-        <li class="text">ida-externo-ponto2</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="14-ida-interno-ponto1">
-        <li class="text">ida-interno-ponto1</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="15-volta-ladoexterno-meio">
-        <li class="text">volta-ladoexterno-meio</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="16-img_20260417_185428_00_083-1">
-        <li class="text">IMG_20260417_185428_00_083 (1)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="17-volta-ladoexterno-entrada-saida">
-        <li class="text">volta-ladoexterno-entrada-saida</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="18-img_20260417_185359_00_082">
-        <li class="text">IMG_20260417_185359_00_082</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="19-img_20260417_184919_00_077-1">
-        <li class="text">IMG_20260417_184919_00_077 (1)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="20-volta-balcao-centro">
-        <li class="text">volta-balcao-centro</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="21-interno-balcao-ponto2">
-        <li class="text">interno-balcao-ponto2</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="22-volta-sala-fundos">
-        <li class="text">volta-sala-fundos</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="23-img_20260417_184919_00_077">
-        <li class="text">IMG_20260417_184919_00_077</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="24-img_20260417_184119_00_071">
-        <li class="text">IMG_20260417_184119_00_071</li>
-      </a>
-    
+    <a href="javascript:void(0)" class="scene" data-id="0-faxada-principal"><li class="text">Fachada Principal</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="1-ida-faxada-lado"><li class="text">Fachada Lateral</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="2-ida-lateralexterna-faxada"><li class="text">Lateral Externa</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="3-ida-interno-ponto2"><li class="text">Interno - Ponto 2</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="4-ida-balcao"><li class="text">Balcão</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="5-ida-saidainterna"><li class="text">Saída Interna</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="6-ida-meio-comodo-balcao"><li class="text">Meio Cômodo - Balcão</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="7-volta-ladoexterno-saida"><li class="text">Lado Externo - Saída</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="8-ida-ladoexterno-meio"><li class="text">Lado Externo - Meio</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="9-img_20260417_184919_00_077"><li class="text">Vista 10</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="10-img_20260417_185925_00_089"><li class="text">Vista 11</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="11-ida-externo-ponto1"><li class="text">Externo - Ponto 1</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="12-ida-ladoexterno-final"><li class="text">Lado Externo Final</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="13-ida-externo-ponto2"><li class="text">Externo - Ponto 2</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="14-ida-interno-ponto1"><li class="text">Interno - Ponto 1</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="15-volta-ladoexterno-meio"><li class="text">Volta Lado Externo</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="16-img_20260417_185428_00_083-1"><li class="text">Vista 17</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="17-volta-ladoexterno-entrada-saida"><li class="text">Entrada/Saída</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="18-img_20260417_185359_00_082"><li class="text">Vista 19</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="19-img_20260417_184919_00_077-1"><li class="text">Vista 20</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="20-volta-balcao-centro"><li class="text">Balcão Centro</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="21-interno-balcao-ponto2"><li class="text">Interno Balcão 2</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="22-volta-sala-fundos"><li class="text">Sala dos Fundos</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="23-img_20260417_184919_00_077"><li class="text">Vista 24</li></a>
+    <a href="javascript:void(0)" class="scene" data-id="24-img_20260417_184119_00_071"><li class="text">Vista 25</li></a>
   </ul>
 </div>
 
@@ -123,45 +302,82 @@
 </div>
 
 <a href="javascript:void(0)" id="autorotateToggle">
-  <img class="icon off" src="img/play.png">
-  <img class="icon on" src="img/pause.png">
+  <img class="icon off" src="/img/play.png">
+  <img class="icon on" src="/img/pause.png">
 </a>
 
 <a href="javascript:void(0)" id="fullscreenToggle">
-  <img class="icon off" src="img/fullscreen.png">
-  <img class="icon on" src="img/windowed.png">
+  <img class="icon off" src="/img/fullscreen.png">
+  <img class="icon on" src="/img/windowed.png">
 </a>
 
 <a href="javascript:void(0)" id="sceneListToggle">
-  <img class="icon off" src="img/expand.png">
-  <img class="icon on" src="img/collapse.png">
+  <img class="icon off" src="/img/expand.png">
+  <img class="icon on" src="/img/collapse.png">
 </a>
 
 <a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
-  <img class="icon" src="img/up.png">
+  <img class="icon" src="/img/up.png">
 </a>
 <a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
-  <img class="icon" src="img/down.png">
+  <img class="icon" src="/img/down.png">
 </a>
 <a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
-  <img class="icon" src="img/left.png">
+  <img class="icon" src="/img/left.png">
 </a>
 <a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
-  <img class="icon" src="img/right.png">
+  <img class="icon" src="/img/right.png">
 </a>
 <a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
-  <img class="icon" src="img/plus.png">
+  <img class="icon" src="/img/plus.png">
 </a>
 <a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
-  <img class="icon" src="img/minus.png">
+  <img class="icon" src="/img/minus.png">
 </a>
 
-<script src="vendor/screenfull.min.js" ></script>
-<script src="vendor/bowser.min.js" ></script>
-<script src="vendor/marzipano.js" ></script>
+<script src="/vendor/screenfull.min.js"></script>
+<script src="/vendor/bowser.min.js"></script>
+<script src="/vendor/marzipano.js"></script>
+<script src="/data.js"></script>
+<script src="/tour.js"></script>
 
-<script src="data.js"></script>
-<script src="index.js"></script>
+<script>
+(function() {
+  var audioIntro = document.getElementById('audio-intro');
+  var audioTour  = document.getElementById('audio-tour');
+
+  function startAudio() {
+    audioIntro.volume = 1;
+    audioTour.volume  = 0.6;
+
+    var introPromise = audioIntro.play();
+
+    if (introPromise !== undefined) {
+      introPromise.catch(function() {
+        // Autoplay blocked — wait for first user interaction
+        var unblock = function() {
+          audioIntro.play();
+          document.removeEventListener('click', unblock);
+          document.removeEventListener('touchstart', unblock);
+        };
+        document.addEventListener('click', unblock);
+        document.addEventListener('touchstart', unblock);
+      });
+    }
+
+    audioIntro.addEventListener('ended', function() {
+      audioTour.play();
+    });
+  }
+
+  // Start as soon as the page is ready
+  if (document.readyState === 'complete') {
+    startAudio();
+  } else {
+    window.addEventListener('load', startAudio);
+  }
+})();
+</script>
 
 </body>
 </html>
