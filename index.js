@@ -72,7 +72,7 @@
 
   // Create scenes.
   var scenes = data.scenes.map(function(data) {
-    var urlPrefix = "tiles";
+    var urlPrefix = "https://cdn.jsdelivr.net/gh/rafaeljoia/ovelha-negra-360@main/tiles";
     var source = Marzipano.ImageUrlSource.fromString(
       urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
       { cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg" });
@@ -278,6 +278,11 @@
     tooltip.classList.add('link-hotspot-tooltip');
     tooltip.innerHTML = findSceneDataById(hotspot.target).name;
 
+    // Create pulsing ring element for visual effect
+    var pulse = document.createElement('div');
+    pulse.classList.add('link-hotspot-pulse');
+
+    wrapper.appendChild(pulse);
     wrapper.appendChild(icon);
     wrapper.appendChild(tooltip);
 
@@ -290,6 +295,11 @@
     var wrapper = document.createElement('div');
     wrapper.classList.add('hotspot');
     wrapper.classList.add('info-hotspot');
+
+    // Create pulsing ring element (same effect as link hotspots)
+    var pulse = document.createElement('div');
+    pulse.classList.add('info-hotspot-pulse');
+    wrapper.appendChild(pulse);
 
     // Create hotspot/tooltip header.
     var header = document.createElement('div');
