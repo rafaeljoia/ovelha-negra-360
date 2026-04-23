@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Project Title</title>
+<meta charset="utf-8">
+<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+<style> @-ms-viewport { width: device-width; } </style>
+<link rel="stylesheet" href="vendor/reset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="multiple-scenes ">
+
+<div id="pano"></div>
+
+<div id="sceneList">
+  <ul class="scenes">
+    
+      <a href="javascript:void(0)" class="scene" data-id="0-faxada-principal">
+        <li class="text">faxada-principal</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="1-ida-faxada-lado">
+        <li class="text">ida-faxada-lado</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="2-ida-lateralexterna-faxada">
+        <li class="text">ida-lateralexterna-faxada</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="3-ida-interno-ponto2">
+        <li class="text">ida-interno-ponto2</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="4-ida-balcao">
+        <li class="text">ida-balcao</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="5-ida-saidainterna">
+        <li class="text">ida-saidainterna</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="6-ida-meio-comodo-balcao">
+        <li class="text">ida-meio-comodo-balcao</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="7-volta-ladoexterno-saida">
+        <li class="text">volta-ladoexterno-saida</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="8-ida-ladoexterno-meio">
+        <li class="text">ida-ladoexterno-meio</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="9-img_20260417_184919_00_077">
+        <li class="text">IMG_20260417_184919_00_077</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="10-img_20260417_185925_00_089">
+        <li class="text">IMG_20260417_185925_00_089</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="11-ida-externo-ponto1">
+        <li class="text">ida-externo-ponto1</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="12-ida-ladoexterno-final">
+        <li class="text">ida-ladoexterno-final</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="13-ida-externo-ponto2">
+        <li class="text">ida-externo-ponto2</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="14-ida-interno-ponto1">
+        <li class="text">ida-interno-ponto1</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="15-volta-ladoexterno-meio">
+        <li class="text">volta-ladoexterno-meio</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="16-img_20260417_185428_00_083-1">
+        <li class="text">IMG_20260417_185428_00_083 (1)</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="17-volta-ladoexterno-entrada-saida">
+        <li class="text">volta-ladoexterno-entrada-saida</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="18-img_20260417_185359_00_082">
+        <li class="text">IMG_20260417_185359_00_082</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="19-img_20260417_184919_00_077-1">
+        <li class="text">IMG_20260417_184919_00_077 (1)</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="20-volta-balcao-centro">
+        <li class="text">volta-balcao-centro</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="21-interno-balcao-ponto2">
+        <li class="text">interno-balcao-ponto2</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="22-volta-sala-fundos">
+        <li class="text">volta-sala-fundos</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="23-img_20260417_184919_00_077">
+        <li class="text">IMG_20260417_184919_00_077</li>
+      </a>
+    
+      <a href="javascript:void(0)" class="scene" data-id="24-img_20260417_184119_00_071">
+        <li class="text">IMG_20260417_184119_00_071</li>
+      </a>
+    
+  </ul>
+</div>
+
+<div id="titleBar">
+  <h1 class="sceneName"></h1>
+</div>
+
+<a href="javascript:void(0)" id="autorotateToggle">
+  <img class="icon off" src="img/play.png">
+  <img class="icon on" src="img/pause.png">
+</a>
+
+<a href="javascript:void(0)" id="fullscreenToggle">
+  <img class="icon off" src="img/fullscreen.png">
+  <img class="icon on" src="img/windowed.png">
+</a>
+
+<a href="javascript:void(0)" id="sceneListToggle">
+  <img class="icon off" src="img/expand.png">
+  <img class="icon on" src="img/collapse.png">
+</a>
+
+<a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
+  <img class="icon" src="img/up.png">
+</a>
+<a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
+  <img class="icon" src="img/down.png">
+</a>
+<a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
+  <img class="icon" src="img/left.png">
+</a>
+<a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
+  <img class="icon" src="img/right.png">
+</a>
+<a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
+  <img class="icon" src="img/plus.png">
+</a>
+<a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
+  <img class="icon" src="img/minus.png">
+</a>
+
+<script src="vendor/screenfull.min.js" ></script>
+<script src="vendor/bowser.min.js" ></script>
+<script src="vendor/marzipano.js" ></script>
+
+<script src="data.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
