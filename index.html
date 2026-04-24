@@ -379,5 +379,17 @@
 })();
 </script>
 
+<script>
+// Fecha info hotspot ao clicar fora dele
+document.addEventListener('click', function() {
+  document.querySelectorAll('.info-hotspot.visible').forEach(function(el) {
+    el.classList.remove('visible');
+  });
+  document.querySelectorAll('.info-hotspot-modal.visible').forEach(function(el) {
+    el.classList.remove('visible');
+  });
+});
+</script>
+
 </body>
 </html>
