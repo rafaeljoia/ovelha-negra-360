@@ -360,6 +360,14 @@
     // Hide content when close icon is clicked.
     modal.querySelector('.info-hotspot-close-wrapper').addEventListener('click', toggle);
 
+    // Stop click propagation so document-level "click outside" handler works correctly.
+    wrapper.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+    modal.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+
     // Prevent touch and scroll events from reaching the parent element.
     // This prevents the view control logic from interfering with the hotspot.
     stopTouchAndScrollEventPropagation(wrapper);
