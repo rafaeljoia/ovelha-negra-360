@@ -334,10 +334,12 @@
     header.appendChild(titleWrapper);
     header.appendChild(closeWrapper);
 
-    // Create text element.
+    // Create text element (includes title as heading).
     var text = document.createElement('div');
     text.classList.add('info-hotspot-text');
-    text.innerHTML = hotspot.text;
+    text.innerHTML =
+      '<div class="info-hotspot-text-title">' + hotspot.title + '</div>' +
+      '<div class="info-hotspot-text-body">' + hotspot.text + '</div>';
 
     // Place header and text into wrapper element.
     wrapper.appendChild(header);
