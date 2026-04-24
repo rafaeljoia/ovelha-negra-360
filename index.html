@@ -174,28 +174,11 @@
     animation-delay: 1.2s;
   }
 
-  /* Desativa completamente o comportamento de hover do info hotspot */
+  /* Hover abre o painel de texto (header permanece circular) */
   .no-touch .info-hotspot:hover .info-hotspot-text,
   .desktop.no-touch .info-hotspot:hover .info-hotspot-text {
-    visibility: hidden !important;
-    max-height: 0 !important;
-    overflow: hidden !important;
-    -webkit-transition: none !important;
-    transition: none !important;
-  }
-
-  .no-touch .info-hotspot:hover {
-    width: auto !important;
-  }
-
-  .desktop.no-touch .info-hotspot .info-hotspot-header:hover,
-  .desktop.no-touch .info-hotspot.visible .info-hotspot-header:hover {
-    width: 40px !important;
-    border-radius: 50% !important;
-  }
-
-  .desktop.no-touch .info-hotspot .info-hotspot-header:hover .info-hotspot-title-wrapper {
-    display: none !important;
+    visibility: visible !important;
+    max-height: 200px !important;
   }
 
   /* Cabeçalho — sempre circular, nunca expande */
